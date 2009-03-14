@@ -43,12 +43,15 @@ do
 	if test "$LIST" != "$WHICH"
 	then
 	  # detect distinct `foo' and `foo.exe'
-	  INODE1=`ls -id "$LIST"` INODE2=`ls -id "$WHICH"`
+	  # (this needs IFS=<space>, to get the INODE numbers)
+	  IFS=" " INODE1=`ls -id "$LIST"` INODE2=`ls -id "$WHICH"`
 	  if test `set ref $INODE1; echo $2` != `set ref $INODE2; echo $2`
 	  then
 	    # `foo' matches first, followed by `foo.exe'
 	    test -z "$break" && echo "$LIST" || WHICH="$LIST"
 	  fi
+	  # reset IFS=<newline>, to get any further PROG names
+	  IFS=$'\n'
 	fi
 	echo "$WHICH"
 	$break
