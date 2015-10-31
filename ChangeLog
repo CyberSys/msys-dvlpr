@@ -1,3 +1,11 @@
+2015.10.31  Keith Marshall  <keithmarshall@users.sourceforge.net>
+
+	Use mingw-get's post-install scripting capability.
+
+	* postinstall/pi.bat: Delete, replaced by fstab.lua.
+	* postinstall/pi.sh: Ditto.
+	* postinstall/fstab.lua: New post-install script.
+
 2011.04.18  Cesar Strauss  <cestrauss@gmail.com>
 
 	* doc/msys/README.rtf: Document new error-mode tool.
