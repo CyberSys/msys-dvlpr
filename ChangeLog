@@ -1,5 +1,16 @@
 2015.10.31  Keith Marshall  <keithmarshall@users.sourceforge.net>
 
+	Preserve the /mingw mount point in /etc/fstab if available.
+
+	* postinstall/fstab.lua: Update copyright notice.
+	(mingw32_sysroot): New variable, defaults to the pathname of the
+	MINGW32_SYSROOT, can be overidded by ...
+	[fstab]: ... an user-supplied /mingw entry in /etc/fstab, if
+	available, and used in ...
+        (fstab_write_configuration): ... as the /mingw mount point.
+
+2015.10.31  Keith Marshall  <keithmarshall@users.sourceforge.net>
+
 	Use mingw-get's post-install scripting capability.
 
 	* postinstall/pi.bat: Delete, replaced by fstab.lua.

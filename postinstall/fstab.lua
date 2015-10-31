@@ -6,7 +6,7 @@
 -- Lua 5.2 module providing a mingw-get setup hook for the MSYS fstab.
 --
 -- Written by Keith Marshall <keithmarshall@users.sourceforge.net>
--- Copyright (C) 2014, MinGW.org Project
+-- Copyright (C) 2014, 2015, MinGW.org Project
 --
 --
 -- Permission is hereby granted, free of charge, to any person obtaining a
@@ -48,6 +48,7 @@
      return string.match( pathname, "(.*[^/])/*$" )
    end
    local sysroot = syspath( "MSYS_SYSROOT" )
+   local mingw32_sysroot = syspath( "MINGW32_SYSROOT" )
    local fstab_file_name = sysroot .. "/etc/fstab"
 --
 -- The following may be adjusted, to control the layout of the mount
@@ -189,13 +190,18 @@
 --
        elseif is_mount_specification( line )
        then
---
---	 ...and, for all EXCEPT the "/mingw" mount point...
---
-	 if not string.match( get_mount_point( line ), "^/mingw$" )
+	 if string.match( get_mount_point( line ), "^/mingw$" )
 	 then
 --
---	   ...record the configuration.
+--	   ...and preserve the user's pre-configured path assignment
+--	   for the "/mingw" mount point, if any.
+--
+	   mingw32_sysroot = get_mapped_path( line )
+--
+	 else
+--
+--	   ...while, for all EXCEPT the "/mingw" mount point,
+--	   simply record the configuration.
 --
 	   table.insert( fstab_as_built, line )
 	 end
@@ -255,7 +261,7 @@
 --	 ...write out the specification for the "/mingw" mount
 --	 point, as appropriate for this installation.
 --
-	 assign_mount_point( syspath( "MINGW32_SYSROOT" ), "/mingw" )
+	 assign_mount_point( mingw32_sysroot, "/mingw" )
        end
      end
 --
